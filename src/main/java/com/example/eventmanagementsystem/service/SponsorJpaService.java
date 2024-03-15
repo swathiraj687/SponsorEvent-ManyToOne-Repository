@@ -27,16 +27,16 @@ public class SponsorJpaService implements SponsorRepository {
         ArrayList<Sponsor> sponsors = new ArrayList<>(sponsorList);
         return sponsors;
     }
-    
+
     @Override
     public Sponsor getSponsorById(int sponsorId) {
         try {
-        return sponsorJpaRepository.findById(sponsorId).get();
+            return sponsorJpaRepository.findById(sponsorId).get();
         } catch (Exception e) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-      
+
     @Override
     public Sponsor addSponsor(Sponsor sponsor) {
         List<Integer> eventIds = new ArrayList<>();
@@ -45,38 +45,38 @@ public class SponsorJpaService implements SponsorRepository {
         }
         try {
             List<Event> complete_events = eventJpaRepository.findAllById(eventIds);
-        if (eventIds.size() != complete_events.size()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "one or more event ids are invaled");
-        }
-        sponsor.setEvents(complete_events);
-        sponsorJpaRepository.save(sponsor);
-        return sponsor;
+            if (eventIds.size() != complete_events.size()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "one or more event ids are invaled");
+            }
+            sponsor.setEvents(complete_events);
+            sponsorJpaRepository.save(sponsor);
+            return sponsor;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-     
+
     @Override
     public Sponsor updateSponsor(int sponsorId, Sponsor sponsor) {
         try {
             Sponsor newSponsor = sponsorJpaRepository.findById(sponsorId).get();
-        if (sponsor.getSponsorName() != null) {
-            newSponsor.setSponsorName(sponsor.getSponsorName());
-        }
-        if (sponsor.getIndustry() != null) {
-            newSponsor.setIndustry(sponsor.getIndustry());
-        }
-        if (sponsor.getEvents() != null) {
-            int eventId = sponsor.getEvents().getEventById();
-            Event event = eventJpaRepository.findById(eventId).get();
-            sponsor.setEvents(event);
-        }
-        return sponsorJpaRepository.save(newSponsor);
+            if (sponsor.getSponsorName() != null) {
+                newSponsor.setSponsorName(sponsor.getSponsorName());
+            }
+            if (sponsor.getIndustry() != null) {
+                newSponsor.setIndustry(sponsor.getIndustry());
+            }
+            if (sponsor.getEvents() != null) {
+                int eventId = sponsor.getEvents().getEventById();
+                Event event = eventJpaRepository.findById(eventId).get();
+                sponsor.setEvents(event);
+            }
+            return sponsorJpaRepository.save(newSponsor);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @Override
     public void deleteSponsor(int sponsorId) {
         try {
@@ -86,12 +86,12 @@ public class SponsorJpaService implements SponsorRepository {
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
-    
+
     @Override
     public List<Event> getSponsorEvents(int sponsorId) {
         try {
             Sponsor sponsor = sponsorJpaRepository.findById(sponsorId).get();
-        return sponsor.getEvents();
+            return sponsor.getEvents();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

@@ -24,6 +24,7 @@ import java.util.*;
 import com.example.eventmanagementsystem.model.Event;
 import com.example.eventmanagementsystem.model.Sponsor;
 import com.example.eventmanagementsystem.repository.EventJpaRepository;
+import com.example.eventmanagementsystem.repository.SponsorJpaRepository;
 
 @Service
 public class EventJpaService implements EventRepository {
@@ -93,7 +94,7 @@ public class EventJpaService implements EventRepository {
                 for (Sponsor sponsor : newSponsors) {
                     sponsor.getEvents().add(newEvent);
                 }
-                sponsorJpaRe(pository.saveAll(newSponsors));
+                sponsorJpaRepository.saveAll(newSponsors);
                 newEvent.setSponsors(newSponsors);
             }
             return eventJpaRepository.save(newEvent);
@@ -119,10 +120,10 @@ public class EventJpaService implements EventRepository {
     }
 
     @Override
-    public List<Sposor> getEventSponsors(int eventId) {
+    public List<Sponsor> getEventSponsors(int eventId) {
         try {
             Event event = eventJpaRepository.findById(eventId).get();
-            return event.getSponsors();
+            return event.getEventSponsors();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

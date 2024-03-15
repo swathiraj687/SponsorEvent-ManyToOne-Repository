@@ -591,7 +591,7 @@ public class EMSControllerTests {
                 for (Sponsor sponsor : event.getSponsors()) {
                         if (sponsor.getSponsorId() == 5) {
                                 throw new AssertionError("Assertion Error: Sponsor " + sponsor.getSponsorId()
-                                        + " and Event 5 are still linked");
+                                                + " and Event 5 are still linked");
                         }
                 }
         }
